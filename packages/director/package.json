@@ -21,6 +21,11 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "dependencies": {
-    "umbrellajs": "^3.3.3"
+    "umbrellajs": "^3.3.3",
+    "web": "link:@langchain/langgraph/web"
+  },
+  "devDependencies": {
+    "@langchain/core": "^0.3.78",
+    "@langchain/langgraph": "^0.4.9"
   }
 }

@@ -1,6 +1,7 @@
 import { DirectorConfig } from "../../types/director.types";
 import { DocumentNotFoundError, ElementNotFoundError } from "../utils";
 import { Actor } from "./actor";
+import { actorAgent } from "./actor/actor-agent";
 import { captureDocumentContext } from "./helpers/capture-document-context";
 
 class Director extends Actor {
@@ -15,7 +16,15 @@ class Director extends Actor {
   async act(selector: string) {
     this.#validateDocumentContext();
 
-    await super.click(selector);
+    // Use the Runnable
+    const finalState = await actorAgent.invoke({ messages: [] });
+
+    console.log(
+      "Actor Agent: ",
+      finalState.messages[finalState.messages.length - 1]?.content
+    );
+
+    // await super.click(selector);
   }
 
   async logDocumentContext() {

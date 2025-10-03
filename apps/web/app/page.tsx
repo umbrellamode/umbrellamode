@@ -7,7 +7,7 @@ export default function Page() {
   const director = new Director();
 
   const clickHandler = async () => {
-    await director.click("#red-button");
+    await director.act("#red-button");
   };
 
   return (
