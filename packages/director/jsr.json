@@ -1,6 +1,6 @@
 {
     "name": "@umbrellamode/director",
     "version": "0.0.1",
-    "exports": "./index.ts",
+    "exports": "./src/index.ts",
     "license": "Apache-2.0"
 }

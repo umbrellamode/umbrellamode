@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@umbrellamode/ui/*": ["../../packages/ui/src/*"]
+      "@umbrellamode/ui/*": ["../../packages/ui/src/*"],
+      "@umbrellamode/director": ["../../packages/director/src/index.ts"]
     },
     "plugins": [
       {

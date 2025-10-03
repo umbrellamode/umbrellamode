@@ -1,13 +1,13 @@
 {
-  "name": "@umbrellamode/lib",
+  "name": "@umbrellamode/director",
   "version": "1.0.0",
   "description": "UmbrellaMode shared library",
   "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./src/index.ts"
   },
   "files": [
-    "index.ts",
+    "src/index.ts",
     "types/**/*.ts"
   ],
   "scripts": {

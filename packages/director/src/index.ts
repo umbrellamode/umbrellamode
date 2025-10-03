@@ -1,4 +1,4 @@
-import { HelloFunctionArgs, HelloFunctionResponse } from "./types";
+import { HelloFunctionArgs, HelloFunctionResponse } from "../types";
 
 /**
  * Greet a person with a custom message.
