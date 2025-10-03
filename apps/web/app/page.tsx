@@ -7,7 +7,7 @@ export default function Page() {
   const director = new Director();
 
   const clickHandler = async () => {
-    await director.logDocumentContext();
+    await director.click("#red-button");
   };
 
   return (
@@ -18,6 +18,7 @@ export default function Page() {
           size="sm"
           className="bg-red-500 text-white"
           onClick={() => alert("Hello World")}
+          id="red-button"
         >
           Button
         </Button>

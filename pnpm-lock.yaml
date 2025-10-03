@@ -73,7 +73,11 @@ importers:
 
   lib: {}
 
-  packages/director: {}
+  packages/director:
+    dependencies:
+      umbrellajs:
+        specifier: ^3.3.3
+        version: 3.3.3
 
   packages/eslint-config:
     devDependencies:
@@ -2325,6 +2329,9 @@ packages:
     resolution: {integrity: sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ==}
     engines: {node: '>=0.8.0'}
     hasBin: true
+
+  umbrellajs@3.3.3:
+    resolution: {integrity: sha512-VrKXEENk705mAVW5N3kxk73iuKeQifuacdmCDfOR6MZdf/AP3H/NQ46HqH32RRCAF7WfVv6t5ziFrvXA1nbHiw==}
 
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
@@ -4832,6 +4839,8 @@ snapshots:
 
   uglify-js@3.19.3:
     optional: true
+
+  umbrellajs@3.3.3: {}
 
   unbox-primitive@1.1.0:
     dependencies:

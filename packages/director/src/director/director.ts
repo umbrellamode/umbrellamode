@@ -1,19 +1,21 @@
 import { DirectorConfig } from "../../types/director.types";
-import { DocumentNotFoundError } from "../utils";
+import { DocumentNotFoundError, ElementNotFoundError } from "../utils";
+import { Actor } from "./actor";
 import { captureDocumentContext } from "./helpers/capture-document-context";
 
-class Director {
+class Director extends Actor {
   private document: Document | null = null;
 
   constructor(args: DirectorConfig = {}) {
+    super();
     // We need to capture the context of the html page that we are on
     this.document = captureDocumentContext();
   }
 
-  async act(message: string) {
+  async act(selector: string) {
     this.#validateDocumentContext();
 
-    console.log(`Acting... ${message}`);
+    await super.click(selector);
   }
 
   async logDocumentContext() {
