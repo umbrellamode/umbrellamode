@@ -1,6 +1,6 @@
 {
-  "name": "@umbrellamode/director",
-  "version": "1.0.0",
+  "name": "umbrellamode",
+  "version": "0.0.1",
   "description": "UmbrellaMode shared library",
   "type": "module",
   "exports": {

@@ -5,7 +5,7 @@
     "paths": {
       "@/*": ["./*"],
       "@umbrellamode/ui/*": ["../../packages/ui/src/*"],
-      "@umbrellamode/director": ["../../packages/director/src/index.ts"]
+      "umbrellamode": ["../../packages/director/src/index.ts"]
     },
     "plugins": [
       {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@umbrellamode/ui/components/button";
-import { hello } from "@umbrellamode/director";
+import { hello } from "umbrellamode";
 
 export default function Page() {
   return (
