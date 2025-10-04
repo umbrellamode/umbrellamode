@@ -82,6 +82,9 @@ importers:
         specifier: link:@langchain/langgraph/web
         version: link:@langchain/langgraph/web
     devDependencies:
+      '@boundaryml/baml':
+        specifier: ^0.210.0
+        version: 0.210.0
       '@langchain/anthropic':
         specifier: ^0.3.30
         version: 0.3.30(@langchain/core@0.3.78)(zod@3.25.76)
@@ -226,6 +229,53 @@ packages:
   '@babel/runtime@7.28.4':
     resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
     engines: {node: '>=6.9.0'}
+
+  '@boundaryml/baml-darwin-arm64@0.210.0':
+    resolution: {integrity: sha512-w0DZpjR3JFhfbclQZWt4fxmLVJFhD9ZSJLdcVthjJEzqmgT3B5qaHESmugqAnVNWXOvY9tS3ntjIdlTp2QmFlA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@boundaryml/baml-darwin-x64@0.210.0':
+    resolution: {integrity: sha512-gpJnkkpQ78wxUwiLbQPVIPcvJJIVL3I3LcCFganm08zJeOU4t1pnZzPW6bkz0y7ChLB4tDjEfWjL7NrzHrnCnA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@boundaryml/baml-linux-arm64-gnu@0.210.0':
+    resolution: {integrity: sha512-YcDQRWBLPpYjxXVKx8fwIYD9wSuMdt/t2+4UW/7Q3QcbE8ELgxqYR7uXEN6wvL8RLfbJN++1uh9D1Ud9mgrBsA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@boundaryml/baml-linux-arm64-musl@0.210.0':
+    resolution: {integrity: sha512-cUfnXz6q4rG5tiia7MPdxxgJSRLmj3xkdH+cgT5Y9nsBx4pDxk2nkeHJGaPrwf2CREYS3dt+qEG3a9PBKlp9WQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@boundaryml/baml-linux-x64-gnu@0.210.0':
+    resolution: {integrity: sha512-oD8i8hckosnfUEqnf7N95EGLQvyrLh0BLemuYZrape16Z6wgWEI1NWKoxy6Wx9quQ246h8OCLps48DOutZftQQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@boundaryml/baml-linux-x64-musl@0.210.0':
+    resolution: {integrity: sha512-d/YFZYE2lYKMgwGHl4n6V6i1rVzFm6VABnONui7n504GN0wkp59EPsLQcGU5WIUkdKdoEUR+AvP1yXznHPtehw==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@boundaryml/baml-win32-x64-msvc@0.210.0':
+    resolution: {integrity: sha512-ZeX8BeiIiu3w+msZx6ti93jVrLnXHyoIFi6Z4p7o8wRDl5T4FmX0GgSlbfZ3f2L6ZcGSiIqw85Dw6f9yDsvbmg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@boundaryml/baml@0.210.0':
+    resolution: {integrity: sha512-0lKyGEBsgIJ4iF3fFwu6ThdFs8Hx2wMqihNgc7LOSBfaOaIsmjjto+mHv+GgiAbn0gsESTieQVH6rA6RDJx0vQ==}
+    engines: {node: '>= 10'}
+    hasBin: true
 
   '@cfworker/json-schema@4.1.1':
     resolution: {integrity: sha512-gAmrUZSGtKc3AiBL71iNWxDsyUC5uMaKKGdvzYsBoTW/xi42JQHl7eKV2OYzCUqvc+D2RCcf7EXY2iCyFIk6og==}
@@ -560,6 +610,9 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@scarf/scarf@1.4.0':
+    resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -2616,6 +2669,39 @@ snapshots:
 
   '@babel/runtime@7.28.4': {}
 
+  '@boundaryml/baml-darwin-arm64@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-darwin-x64@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-linux-arm64-gnu@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-linux-arm64-musl@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-linux-x64-gnu@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-linux-x64-musl@0.210.0':
+    optional: true
+
+  '@boundaryml/baml-win32-x64-msvc@0.210.0':
+    optional: true
+
+  '@boundaryml/baml@0.210.0':
+    dependencies:
+      '@scarf/scarf': 1.4.0
+    optionalDependencies:
+      '@boundaryml/baml-darwin-arm64': 0.210.0
+      '@boundaryml/baml-darwin-x64': 0.210.0
+      '@boundaryml/baml-linux-arm64-gnu': 0.210.0
+      '@boundaryml/baml-linux-arm64-musl': 0.210.0
+      '@boundaryml/baml-linux-x64-gnu': 0.210.0
+      '@boundaryml/baml-linux-x64-musl': 0.210.0
+      '@boundaryml/baml-win32-x64-msvc': 0.210.0
+
   '@cfworker/json-schema@4.1.1': {}
 
   '@cspotcode/source-map-support@0.8.1':
@@ -2904,6 +2990,8 @@ snapshots:
       react: 19.1.1
     optionalDependencies:
       '@types/react': 19.1.9
+
+  '@scarf/scarf@1.4.0': {}
 
   '@swc/helpers@0.5.15':
     dependencies:
