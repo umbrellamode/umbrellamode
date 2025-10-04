@@ -28,15 +28,12 @@ const nodeFn = async (_state: typeof GraphState.State) => {
 
 const sendMessageToSlack = tool(
   async (input: { message: string }) => {
-    const response = await fetch(
-      "https://hooks.slack.com/services/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",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          text: input.message,
-        }),
-      }
-    );
+    const response = await fetch("URL_HERE", {
+      method: "POST",
+      body: JSON.stringify({
+        text: input.message,
+      }),
+    });
 
     if (!response.ok) {
       throw new Error(
