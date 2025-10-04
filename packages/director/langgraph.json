@@ -1,0 +1,12 @@
+{
+  "$schema": "https://langgra.ph/schema.json",
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "actorAgent": "./src/director/actor/actor-agent.ts:actorAgent",
+    "actorDeepAgent": "./src/director/actor/actor-agent.ts:actorDeepAgent"
+  },
+  "env": ".env.local",
+  "image_distro": "wolfi"
+}
