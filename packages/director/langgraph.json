@@ -4,8 +4,8 @@
     "."
   ],
   "graphs": {
-    "actorAgent": "./src/director/actor/actor-agent.ts:actorAgent",
-    "actorDeepAgent": "./src/director/actor/actor-agent.ts:actorDeepAgent"
+    "Actor Agent": "./src/director/actor/agent.ts:actorAgent",
+    "Example Agent": "./src/utils/example-agent.ts:exampleAgent"
   },
   "env": ".env.local",
   "image_distro": "wolfi"

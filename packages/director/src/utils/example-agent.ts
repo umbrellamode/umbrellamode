@@ -1,19 +1,13 @@
 "use client";
 
 // Import from "@langchain/langgraph/web"
-import {
-  END,
-  START,
-  StateGraph,
-  Annotation,
-  Command,
-} from "@langchain/langgraph/web";
+import { END, START, StateGraph, Annotation } from "@langchain/langgraph/web";
 import { BaseMessage, HumanMessage } from "@langchain/core/messages";
 import { createDeepAgent, DeepAgentState } from "deepagents";
 import { ChatAnthropic } from "@langchain/anthropic";
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
-import { b } from "../../../baml_client";
+import { b } from "../../baml_client";
 
 const extendedStateSchema = z.object({
   topic: z.string(),
@@ -66,7 +60,11 @@ const sendMessageToSlack = tool(
 
 const tellJoke = tool(
   async (input: { topic: string }) => {
-    const response = await b.TellJoke(input.topic);
+    // const response = await b.TellJoke(input.topic);
+
+    const response = {
+      joke: "Why did the chicken cross the road? To get to the other side.",
+    };
 
     console.log("Joke response:", response);
 
@@ -127,4 +125,4 @@ const workflow = new StateGraph(GraphState)
   .addEdge(START, "node")
   .addEdge("node", END);
 
-export const actorAgent = workflow.compile({});
+export const exampleAgent = workflow.compile({});
