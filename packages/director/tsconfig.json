@@ -13,7 +13,8 @@
     "strictPropertyInitialization": true
   },
   "include": [
-    "**/*.ts"
+    "**/*.ts",
+    "types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
