@@ -1,6 +1,6 @@
 {
   "name": "umbrellamode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UmbrellaMode shared library",
   "type": "module",
   "exports": {
@@ -22,7 +22,6 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "dependencies": {
-    "umbrellajs": "^3.3.3",
     "web": "link:@langchain/langgraph/web"
   },
   "devDependencies": {
@@ -30,7 +29,9 @@
     "@langchain/anthropic": "^0.3.30",
     "@langchain/core": "^0.3.78",
     "@langchain/langgraph": "^0.4.9",
+    "@langchain/openai": "^0.6.14",
     "deepagents": "^0.0.2",
+    "openai": "^6.1.0",
     "zod": "^3.25.76"
   }
 }

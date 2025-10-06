@@ -1,3 +1,2 @@
-export * from "./act.types";
+export * from "./actor.types";
 export * from "./director.types";
-export * from "./document";

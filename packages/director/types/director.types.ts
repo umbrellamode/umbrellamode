@@ -1,1 +1,3 @@
-export interface DirectorConfig {}
+export interface DirectorConfig {
+  anthropicApiKey?: string;
+}
