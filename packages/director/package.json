@@ -15,8 +15,21 @@
     "lg": "npx @langchain/langgraph-cli dev"
   },
   "keywords": [
-    "umbrellamode",
-    "library"
+    "browser-automation",
+    "dom-interaction",
+    "web-automation",
+    "testing",
+    "typescript",
+    "actor-pattern",
+    "selenium-alternative",
+    "puppeteer-alternative",
+    "playwright-alternative",
+    "web-scraping",
+    "e2e-testing",
+    "react-compatible",
+    "framework-agnostic",
+    "native-dom-events",
+    "umbrellamode"
   ],
   "author": "",
   "license": "ISC",
