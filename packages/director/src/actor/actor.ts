@@ -15,6 +15,7 @@ import {
   ActorFocusActionsArgs,
   ActorBlurActionsArgs,
   ActorTypeFastActionsArgs,
+  ActorHighlightActionsArgs,
 } from "../types/actor.types";
 
 export class Actor {
@@ -794,5 +795,106 @@ export class Actor {
    */
   async typeFast({ selector, text }: ActorTypeFastActionsArgs) {
     return this.type({ selector, text, simulateTyping: false });
+  }
+
+  /**
+   * Highlights an element with a temporary visual effect
+   *
+   * This method temporarily highlights an element by adding a colored background and border.
+   * Uses CSS !important declarations to ensure the highlight is always visible, overriding
+   * any existing styles including Tailwind CSS classes. The highlight automatically
+   * disappears after the specified duration. Useful for debugging, testing, or drawing
+   * attention to specific elements during automation.
+   *
+   * @param args - Highlight action arguments
+   * @param args.selector - CSS selector to target the element
+   * @param args.color - Highlight color (default: 'red')
+   * @param args.style - Custom CSS border style (overrides color if provided)
+   * @param args.duration - Duration in milliseconds before removing highlight (default: 2000)
+   *
+   * @throws {Error} When element is not found
+   *
+   * @example
+   * ```typescript
+   * // Highlight with default red background and border
+   * await actor.highlight({ selector: '#important-section' });
+   *
+   * // Highlight with custom color (overrides Tailwind classes)
+   * await actor.highlight({
+   *   selector: '.error-message',
+   *   color: 'red',
+   *   duration: 3000
+   * });
+   *
+   * // Highlight with custom style
+   * await actor.highlight({
+   *   selector: '#success-banner',
+   *   style: '3px solid green',
+   *   duration: 2000
+   * });
+   *
+   * // Highlight for debugging (always visible)
+   * await actor.highlight({
+   *   selector: '[data-testid="submit-btn"]',
+   *   color: 'blue',
+   *   duration: 1000
+   * });
+   * ```
+   */
+  async highlight({
+    selector,
+    color = "red",
+    style,
+    duration = 2000,
+  }: ActorHighlightActionsArgs) {
+    // Find the element using native DOM methods
+    const element = document.querySelector(selector);
+
+    if (!element) {
+      throw new Error(`Element not found with selector: ${selector}`);
+    }
+
+    if (!(element instanceof HTMLElement)) {
+      throw new Error(
+        `Element with selector "${selector}" is not an HTMLElement`
+      );
+    }
+
+    // Store original styles to restore later
+    const originalOutline = element.style.outline;
+    const originalBackgroundColor = element.style.backgroundColor;
+    const originalTransition = element.style.transition;
+    const originalBoxShadow = element.style.boxShadow;
+
+    // Apply highlight style with !important to override existing styles
+    if (style) {
+      // Use custom style (typically a border) with !important
+      element.style.setProperty("outline", style, "important");
+      element.style.setProperty(
+        "box-shadow",
+        "0 0 0 2px rgba(255, 255, 0, 0.3)",
+        "important"
+      );
+    } else {
+      // Use default color highlighting with !important
+      element.style.setProperty("background-color", color, "important");
+      element.style.setProperty(
+        "box-shadow",
+        `0 0 0 2px ${color}`,
+        "important"
+      );
+    }
+
+    // Add smooth transition for better visual effect
+    element.style.setProperty("transition", "all 0.3s ease", "important");
+
+    // Remove highlight after specified duration
+    setTimeout(() => {
+      // Restore original styles
+      element.style.outline = originalOutline;
+      element.style.backgroundColor = originalBackgroundColor;
+      element.style.transition = originalTransition;
+      element.style.boxShadow = originalBoxShadow;
+    }, duration);
   }
 }

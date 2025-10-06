@@ -223,6 +223,37 @@ export interface ActorIsElementInViewportActionsArgs
 export interface ActorGetScrollPositionActionsArgs {}
 
 /**
+ * Arguments for highlighting an element
+ * @example
+ * ```typescript
+ * // Highlight with default red background
+ * await actor.highlight({ selector: '#important-section' });
+ *
+ * // Highlight with custom color
+ * await actor.highlight({
+ *   selector: '.error-message',
+ *   color: 'red',
+ *   duration: 3000
+ * });
+ *
+ * // Highlight with custom style
+ * await actor.highlight({
+ *   selector: '#success-banner',
+ *   style: '2px solid green',
+ *   duration: 2000
+ * });
+ * ```
+ */
+export interface ActorHighlightActionsArgs extends BaseActorActionsArgs {
+  /** Highlight color (default: 'red') */
+  color?: string;
+  /** Custom CSS border style (overrides color if provided) */
+  style?: string;
+  /** Duration in milliseconds before removing highlight (default: 2000) */
+  duration?: number;
+}
+
+/**
  * Actor class for performing DOM interactions and browser automation
  *
  * The Actor provides a comprehensive set of methods for interacting with web pages,
