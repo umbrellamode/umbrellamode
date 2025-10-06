@@ -1,4 +1,4 @@
-export * from "./actor";
+export { Actor } from "./actor";
 export {
   type BaseActorActionsArgs,
   type ActorClickActionsArgs,
@@ -18,3 +18,5 @@ export {
   type ActorIsElementInViewportActionsArgs,
   type ActorGetScrollPositionActionsArgs,
 } from "../types/actor.types";
+
+export { type DirectorConfig } from "../types/director.types";
