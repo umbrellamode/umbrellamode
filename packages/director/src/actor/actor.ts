@@ -15,7 +15,7 @@ import {
   ActorFocusActionsArgs,
   ActorBlurActionsArgs,
   ActorTypeFastActionsArgs,
-} from "../../types/actor.types";
+} from "../types/actor.types";
 
 export class Actor {
   /**

@@ -1,16 +1,23 @@
 {
   "name": "umbrellamode",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "UmbrellaMode shared library",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
   "files": [
-    "src/index.ts",
-    "types/**/*.ts"
+    "dist"
   ],
   "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lg": "npx @langchain/langgraph-cli dev"
   },

@@ -17,6 +17,6 @@ export {
   type ActorTypeFastActionsArgs,
   type ActorIsElementInViewportActionsArgs,
   type ActorGetScrollPositionActionsArgs,
-} from "../types/actor.types";
+} from "./types/actor.types";
 
-export { type DirectorConfig } from "../types/director.types";
+export { type DirectorConfig } from "./types/director.types";
