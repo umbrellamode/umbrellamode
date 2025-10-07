@@ -75,6 +75,9 @@ importers:
 
   packages/director:
     dependencies:
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
       web:
         specifier: link:@langchain/langgraph/web
         version: link:@langchain/langgraph/web
@@ -94,6 +97,9 @@ importers:
       '@langchain/openai':
         specifier: ^0.6.14
         version: 0.6.14(@langchain/core@0.3.78(openai@6.1.0(zod@3.25.76)))
+      '@types/react':
+        specifier: ^19.1.9
+        version: 19.1.9
       deepagents:
         specifier: ^0.0.2
         version: 0.0.2(openai@6.1.0(zod@3.25.76))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod-to-json-schema@3.24.6(zod@3.25.76))

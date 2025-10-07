@@ -1,6 +1,6 @@
 {
   "name": "umbrellamode",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "UmbrellaMode shared library",
   "type": "module",
   "main": "./dist/index.js",
@@ -42,6 +42,7 @@
   "license": "ISC",
   "packageManager": "pnpm@10.4.1",
   "dependencies": {
+    "react": "^19.1.1",
     "web": "link:@langchain/langgraph/web"
   },
   "devDependencies": {
@@ -50,6 +51,7 @@
     "@langchain/core": "^0.3.78",
     "@langchain/langgraph": "^0.4.9",
     "@langchain/openai": "^0.6.14",
+    "@types/react": "^19.1.9",
     "deepagents": "^0.0.2",
     "openai": "^6.1.0",
     "zod": "^3.25.76"
