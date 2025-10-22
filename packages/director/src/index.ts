@@ -25,3 +25,4 @@ export {
   UmbrellaModeProvider,
   useUmbrellaMode,
 } from "./provider/umbrellamode-provider";
+export { Director } from "./director/director";
