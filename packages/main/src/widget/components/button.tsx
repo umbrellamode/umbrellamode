@@ -26,7 +26,7 @@ const getVariantStyles = (variant: ButtonVariant = "default") => {
     borderRadius: "0",
     fontSize: "14px",
     fontWeight: "500",
-    transition: "all 0.2s",
+    transition: "all 0.2s ease-in-out",
     outline: "none",
     cursor: "pointer",
     border: "none",
@@ -140,11 +140,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       combinedStyles.pointerEvents = "none";
     }
 
-    // Handle hover effects (simplified for inline styles)
+    // Enhanced hover effects with background changes only
     const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
       if (props.disabled) return;
 
       const target = e.currentTarget;
+
       switch (variant) {
         case "default":
           target.style.background = "rgba(0, 0, 0, 0.9)";
@@ -154,15 +155,17 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           break;
         case "outline":
           target.style.background = "#f3f4f6";
+          target.style.borderColor = "#d1d5db";
           break;
         case "secondary":
           target.style.background = "rgba(243, 244, 246, 0.8)";
           break;
         case "ghost":
-          target.style.background = "#f3f4f6";
+          target.style.background = "transparent";
           break;
         case "link":
           target.style.textDecoration = "underline";
+          target.style.color = "rgba(0, 0, 0, 0.8)";
           break;
       }
     };
@@ -172,9 +175,30 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       const target = e.currentTarget;
       const originalStyles = getVariantStyles(variant);
-      target.style.background = originalStyles.background as string;
+
+      // Reset background and other properties
+      target.style.background =
+        (originalStyles as any).background || "transparent";
       target.style.textDecoration =
         (originalStyles as any).textDecoration || "none";
+      target.style.color = (originalStyles as any).color || "inherit";
+      target.style.borderColor =
+        (originalStyles as any).borderColor || "transparent";
+    };
+
+    // Handle focus states for accessibility
+    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+      if (props.disabled) return;
+
+      const target = e.currentTarget;
+      target.style.outline = "2px solid #3b82f6";
+      target.style.outlineOffset = "2px";
+    };
+
+    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+      const target = e.currentTarget;
+      target.style.outline = "none";
+      target.style.outlineOffset = "0";
     };
 
     return (
@@ -183,6 +207,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         style={combinedStyles}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       >
         {children}

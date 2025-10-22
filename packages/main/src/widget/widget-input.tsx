@@ -1,4 +1,4 @@
-import { SendIcon } from "lucide-react";
+import { ArrowUp, SendIcon } from "lucide-react";
 import { widgetBackground, widgetPadding } from "./widger-container";
 import { Button } from "./components/button";
 
@@ -32,7 +32,7 @@ export const WidgetInput = () => {
         }}
       />
       <Button size="icon">
-        <SendIcon className="w-2 h-2" />
+        <ArrowUp size={16} />
       </Button>
     </div>
   );
