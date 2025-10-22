@@ -1,4 +1,5 @@
 import { createContext, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Widget } from "../widget/widget";
 
 interface UmbrellaModeContextInterface {
@@ -33,7 +34,6 @@ export const UmbrellaModeProvider = ({
   const open = useCallback(async (): Promise<void> => {
     setIsLoading(true);
     try {
-      alert("Opening umbrella mode");
       // TODO: Implement actual open logic here
       // This might involve API calls, state updates, etc.
       setIsOpen(true);
@@ -71,9 +71,32 @@ export const UmbrellaModeProvider = ({
         isLoading,
       }}
     >
-      <div className="relative flex flex-col">
-        {children}
-        <Widget />
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        <motion.div
+          layout
+          style={{
+            flex: 1,
+            overflow: "auto",
+          }}
+          animate={{
+            marginRight: isOpen ? 300 : 0,
+          }}
+          transition={{
+            type: "spring",
+            visualDuration: 0.3,
+            bounce: 0.15,
+          }}
+        >
+          {children}
+        </motion.div>
+        <AnimatePresence>{isOpen && <Widget />}</AnimatePresence>
       </div>
     </UmbrellaModeContext.Provider>
   );

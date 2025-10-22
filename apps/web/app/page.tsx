@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useUmbrellaMode } from "../../../packages/main/src/provider/use-umbrellamode";
 
 export default function Page() {
-  const { open } = useUmbrellaMode();
+  const { open, isOpen, close } = useUmbrellaMode();
 
   const [instruction, setInstruction] = useState(
     "Please update my first and last name to David Matthews"
@@ -93,7 +93,11 @@ export default function Page() {
         {isExecuting ? "Executing..." : "Execute Instruction"}
       </Button>
 
-      <Button onClick={open}>Open Umbrella Mode</Button>
+      {isOpen ? (
+        <Button onClick={close}>Close Umbrella Mode</Button>
+      ) : (
+        <Button onClick={() => open()}>Open Umbrella Mode</Button>
+      )}
     </div>
   );
 }

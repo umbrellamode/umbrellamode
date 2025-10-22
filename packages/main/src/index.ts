@@ -21,8 +21,7 @@ export {
 } from "./types/actor.types";
 
 export { type DirectorConfig } from "./types/director.types";
-export {
-  UmbrellaModeProvider,
-  useUmbrellaMode,
-} from "./provider/umbrellamode-provider";
+export { UmbrellaModeProvider } from "./provider/umbrellamode-provider";
+export { useUmbrellaMode } from "./provider/use-umbrellamode";
 export { Director } from "./director/director";
+export { Widget } from "./widget/widget";
