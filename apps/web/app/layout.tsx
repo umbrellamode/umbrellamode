@@ -2,7 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@umbrellamode/ui/globals.css";
 import { Providers } from "@/components/providers";
-import { UmbrellaModeProvider } from "umbrellamode";
+import { UmbrellaModeProvider } from "../../../packages/main/src";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -20,14 +20,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <UmbrellaModeProvider apiKey={process.env.UMBRELLAMODE_API_KEY!}>
-      <html lang="en" suppressHydrationWarning>
-        <body
-          className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
-        >
-          <Providers>{children}</Providers>
-        </body>
-      </html>
-    </UmbrellaModeProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
+      >
+        <Providers>{children}</Providers>
+      </body>
+    </html>
   );
 }

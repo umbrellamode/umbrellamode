@@ -5,7 +5,7 @@ import { UmbrellaModeContext } from "./umbrellamode-provider";
  * Arguments for identifying a user or person.
  * At least one identifier (userId, anonymousId, deviceId, email, phone, or oauth) should be provided.
  */
-interface IdentifyArgs {
+export interface IdentifyArgs {
   /** Unique user identifier */
   userId?: string;
   /** Anonymous user identifier for tracking before authentication */
@@ -31,7 +31,11 @@ interface IdentifyArgs {
 }
 
 interface UseUmbrellaModeReturn {
-  identify: (args: IdentifyArgs) => Promise<void>;
+  open: () => Promise<void>;
+  close: () => Promise<void>;
+  isOpen: boolean;
+  isClosed: boolean;
+  isLoading: boolean;
 }
 
 export const useUmbrellaMode = (): UseUmbrellaModeReturn => {
@@ -42,5 +46,11 @@ export const useUmbrellaMode = (): UseUmbrellaModeReturn => {
     );
   }
 
-  return { identify: context.identify };
+  return {
+    open: () => context.open(),
+    close: () => context.close(),
+    isOpen: context.isOpen,
+    isClosed: context.isClosed,
+    isLoading: context.isLoading,
+  };
 };
