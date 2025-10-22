@@ -96,6 +96,12 @@ When the UmbrellaMode widget is open, the system automatically tracks:
 - **Privacy**: URLs are sanitized (removes sensitive query params)
 - Excludes widget's own API calls and analytics URLs
 
+### 7. **Hover Actions**
+- Tracks mouse hover events on meaningful elements
+- Captures hover duration and identifies long hovers (5+ seconds)
+- Only tracks hovers lasting at least 1 second to filter out accidental hovers
+- Identifies elements with meaningful content (text, images, interactive elements)
+
 ## Privacy Features
 
 - **Hashed Values**: All user input is hashed with SHA-256
@@ -112,6 +118,7 @@ When the UmbrellaMode widget is open, the system automatically tracks:
 - **Shadow DOM Support**: Properly excludes shadow DOM interactions
 - **Debounced Input**: Smart input tracking with 1-second debounce
 - **Throttled Scroll**: Efficient scroll tracking with throttling
+- **Smart Hover Tracking**: 5-second threshold for long hovers, 1-second minimum
 
 ## API
 
@@ -135,6 +142,7 @@ type UserAction = (
   | SelectChangeActionData
   | ScrollActionData
   | NetworkRequestActionData
+  | HoverActionData
 ) & {
   timestamp: string; // ISO format
 };
@@ -171,6 +179,21 @@ interface NetworkRequestActionData {
   responseSize?: number; // Bytes
   isSuccess: boolean;
   error?: string;
+  viewport: ViewportInfo;
+}
+
+// Example: Hover Action
+interface HoverActionData {
+  type: "hover";
+  element: {
+    tagName: string;
+    selector: string;
+    text: string;
+    label?: string;
+    // ... position, attributes, etc.
+  };
+  duration: number;      // Milliseconds
+  isLongHover: boolean;  // 5+ seconds
   viewport: ViewportInfo;
 }
 ```
@@ -234,5 +257,20 @@ interface NetworkRequestActionData {
   requestSize: 1024,
   responseSize: 512,
   isSuccess: true
+}
+
+// Hover action (long hover)
+{
+  type: "hover",
+  timestamp: "2024-01-15T10:30:20.000Z",
+  element: {
+    tagName: "BUTTON",
+    selector: "#feature-button",
+    text: "Learn More",
+    className: "btn btn-outline",
+    // ... position, attributes
+  },
+  duration: 5200,
+  isLongHover: true
 }
 ```

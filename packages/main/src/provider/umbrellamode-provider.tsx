@@ -23,6 +23,12 @@ import {
   interceptXHR,
   restoreNetworkInterceptors,
 } from "../utils/track-network";
+import {
+  handleMouseEnter,
+  handleMouseLeave,
+  cleanupHoverTracking,
+  isHoverableElement,
+} from "../utils/track-hover";
 
 interface UmbrellaModeContextInterface {
   apiKey: string;
@@ -75,6 +81,7 @@ export const UmbrellaModeProvider = ({
     if (!isOpen) {
       // Clean up when widget is closed
       cleanupInputTracking();
+      cleanupHoverTracking();
       restoreNetworkInterceptors();
       return;
     }
@@ -158,12 +165,33 @@ export const UmbrellaModeProvider = ({
       addUserAction(action as UserAction);
     });
 
+    // Hover tracking
+    const handleMouseEnterEvent = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!isHoverableElement(target) || isWithinWidget(target)) return;
+
+      handleMouseEnter(event, (action) => {
+        addUserAction(action as UserAction);
+      });
+    };
+
+    const handleMouseLeaveEvent = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!isHoverableElement(target) || isWithinWidget(target)) return;
+
+      handleMouseLeave(event, (action) => {
+        addUserAction(action as UserAction);
+      });
+    };
+
     // Add all event listeners
     document.addEventListener("click", handleGlobalClick, true);
     document.addEventListener("input", handleInput, true);
     document.addEventListener("blur", handleBlur, true);
     document.addEventListener("submit", handleFormSubmit, true);
     document.addEventListener("change", handleSelectChange, true);
+    document.addEventListener("mouseenter", handleMouseEnterEvent, true);
+    document.addEventListener("mouseleave", handleMouseLeaveEvent, true);
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -173,10 +201,13 @@ export const UmbrellaModeProvider = ({
       document.removeEventListener("blur", handleBlur, true);
       document.removeEventListener("submit", handleFormSubmit, true);
       document.removeEventListener("change", handleSelectChange, true);
+      document.removeEventListener("mouseenter", handleMouseEnterEvent, true);
+      document.removeEventListener("mouseleave", handleMouseLeaveEvent, true);
       window.removeEventListener("scroll", handleScroll);
 
       // Clean up tracking utilities
       cleanupInputTracking();
+      cleanupHoverTracking();
       restoreNetworkInterceptors();
     };
   }, [isOpen, addUserAction]);

@@ -161,6 +161,24 @@ export interface NetworkRequestActionData {
 }
 
 /**
+ * Hover action data
+ */
+export interface HoverActionData {
+  type: "hover";
+  element: BaseElementInfo & {
+    /** Text content of the element */
+    text: string;
+    /** Associated label text */
+    label?: string;
+  };
+  /** Hover duration in milliseconds */
+  duration: number;
+  /** Whether this is a long hover (5+ seconds) */
+  isLongHover: boolean;
+  viewport: ViewportInfo;
+}
+
+/**
  * Union type for all user actions
  */
 export type UserAction = (
@@ -170,6 +188,7 @@ export type UserAction = (
   | SelectChangeActionData
   | ScrollActionData
   | NetworkRequestActionData
+  | HoverActionData
 ) & {
   /** ISO timestamp when the action occurred */
   timestamp: string;

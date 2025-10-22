@@ -29,6 +29,7 @@ export {
   type SelectChangeActionData,
   type ScrollActionData,
   type NetworkRequestActionData,
+  type HoverActionData,
   type BaseElementInfo,
   type ViewportInfo,
 } from "./types";
@@ -65,3 +66,9 @@ export {
   interceptXHR,
   restoreNetworkInterceptors,
 } from "./utils/track-network";
+export {
+  handleMouseEnter,
+  handleMouseLeave,
+  cleanupHoverTracking,
+  isHoverableElement,
+} from "./utils/track-hover";
