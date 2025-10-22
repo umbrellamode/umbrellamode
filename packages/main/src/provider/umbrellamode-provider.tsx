@@ -26,7 +26,7 @@ export const UmbrellaModeProvider = ({
   baseUrl?: string;
 }) => {
   const [personId, setPersonId] = useState<string | undefined>(undefined);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const isClosed = !isOpen;
@@ -96,7 +96,9 @@ export const UmbrellaModeProvider = ({
         >
           {children}
         </motion.div>
-        <AnimatePresence>{isOpen && <Widget />}</AnimatePresence>
+        <AnimatePresence>
+          {isOpen && <Widget agentName="Umbrella Mode" />}
+        </AnimatePresence>
       </div>
     </UmbrellaModeContext.Provider>
   );

@@ -115,12 +115,18 @@ importers:
       '@umbrellamode/ui':
         specifier: workspace:*
         version: link:../ui
+      lucide-react:
+        specifier: ^0.475.0
+        version: 0.475.0(react@19.1.1)
       motion:
         specifier: ^12.23.24
         version: 12.23.24(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       react:
         specifier: ^19.1.1
         version: 19.1.1
+      react-dom:
+        specifier: ^19.1.1
+        version: 19.1.1(react@19.1.1)
       web:
         specifier: link:@langchain/langgraph/web
         version: link:@langchain/langgraph/web
@@ -143,6 +149,9 @@ importers:
       '@types/react':
         specifier: ^19.1.9
         version: 19.1.9
+      '@types/react-dom':
+        specifier: ^19.1.7
+        version: 19.1.7(@types/react@19.1.9)
       deepagents:
         specifier: ^0.0.2
         version: 0.0.2(openai@6.1.0(zod@3.25.76))(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
