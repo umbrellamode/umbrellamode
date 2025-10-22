@@ -16,7 +16,12 @@ export const WidgetMessages = () => {
       <div style={{ padding: 16 }}>
         <pre>
           {JSON.stringify(
-            userActions.map((action) => action.element.className),
+            userActions.map((action) => {
+              if ("element" in action) {
+                return action.element.className;
+              }
+              return action.type;
+            }),
             null,
             2
           )}

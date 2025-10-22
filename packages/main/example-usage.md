@@ -1,4 +1,4 @@
-# Button Click Tracking Usage Example
+# Comprehensive User Action Tracking
 
 ## How to Use
 
@@ -20,12 +20,32 @@ function MainApp() {
     <div>
       <h1>My App</h1>
       
-      {/* These buttons will be tracked when widget is open */}
+      {/* All these interactions will be tracked when widget is open */}
+      
+      {/* Click tracking */}
       <button>Click me!</button>
       <a href="#">Link button</a>
       <div role="button" style={{ cursor: 'pointer' }}>
         Custom clickable
       </div>
+      
+      {/* Input tracking */}
+      <input type="text" placeholder="Type here..." />
+      <textarea placeholder="Multi-line input"></textarea>
+      
+      {/* Form tracking */}
+      <form>
+        <input name="email" type="email" placeholder="Email" />
+        <input name="password" type="password" placeholder="Password" />
+        <button type="submit">Submit</button>
+      </form>
+      
+      {/* Select tracking */}
+      <select name="country">
+        <option value="us">United States</option>
+        <option value="ca">Canada</option>
+        <option value="uk">United Kingdom</option>
+      </select>
       
       {/* Debug panel to see tracked actions */}
       {isOpen && (
@@ -44,21 +64,54 @@ function MainApp() {
 
 When the UmbrellaMode widget is open, the system automatically tracks:
 
-- **All clickable elements**: `<button>`, `<a>`, elements with `role="button"`, and elements with click handlers
-- **Comprehensive metadata** for each click:
-  - Element details (tag, text, ID, classes, position, dimensions)
-  - Unique CSS selector for the element
-  - All element attributes
-  - Viewport information (scroll position, window size)
-  - Precise timestamp
+### 1. **Click Actions**
+- All clickable elements: `<button>`, `<a>`, elements with `role="button"`, and elements with click handlers
+- Element details, position, attributes, and viewport info
+
+### 2. **Input Actions** 
+- Text inputs, textareas, and contenteditable elements
+- Triggered on blur or 1 second after typing stops (debounced)
+- **Privacy**: Input values are hashed (SHA-256) for privacy
+- Captures field metadata: name, type, placeholder, label
+
+### 3. **Form Submission Actions**
+- Form submissions with validation status
+- **Privacy**: All field values are hashed
+- Captures form metadata: action URL, method, field count
+
+### 4. **Select Change Actions**
+- Dropdown/select element changes
+- Captures selected options and field metadata
+- Supports both single and multi-select
+
+### 5. **Scroll Actions**
+- Scroll depth as percentage of page
+- Throttled to every 500ms for performance
+- Tracks milestones: 25%, 50%, 75%, 100%
+- Captures scroll direction and velocity
+
+### 6. **Network Request Actions**
+- Intercepts fetch() and XMLHttpRequest calls
+- Captures: URL, method, status, duration, request/response sizes
+- **Privacy**: URLs are sanitized (removes sensitive query params)
+- Excludes widget's own API calls and analytics URLs
+
+## Privacy Features
+
+- **Hashed Values**: All user input is hashed with SHA-256
+- **Excluded Fields**: Passwords, tokens, and sensitive fields are excluded
+- **Sanitized URLs**: Sensitive query parameters are removed
+- **No Auth Headers**: Authentication headers are not captured
+- **Widget Exclusion**: No tracking within the widget itself
 
 ## Features
 
-- **Memory management**: Keeps last 1000 actions (FIFO)
-- **Widget exclusion**: Doesn't track clicks within the widget itself
-- **Shadow DOM support**: Properly excludes shadow DOM interactions
-- **Error handling**: Gracefully handles tracking failures
-- **Performance optimized**: Only tracks when widget is open
+- **Memory Management**: Keeps last 1000 actions (FIFO)
+- **Performance Optimized**: Only tracks when widget is open
+- **Error Resilient**: Graceful handling of tracking failures
+- **Shadow DOM Support**: Properly excludes shadow DOM interactions
+- **Debounced Input**: Smart input tracking with 1-second debounce
+- **Throttled Scroll**: Efficient scroll tracking with throttling
 
 ## API
 
@@ -71,26 +124,115 @@ const {
 } = useUmbrellaMode();
 ```
 
-## UserAction Type
+## UserAction Types
 
 ```tsx
-interface UserAction {
-  type: 'click';
+// Union type for all actions
+type UserAction = (
+  | ClickActionData
+  | InputActionData
+  | FormSubmitActionData
+  | SelectChangeActionData
+  | ScrollActionData
+  | NetworkRequestActionData
+) & {
   timestamp: string; // ISO format
+};
+
+// Example: Input Action
+interface InputActionData {
+  type: "input";
   element: {
     tagName: string;
-    selector: string; // Unique CSS selector
-    text: string;
-    id?: string;
-    className: string;
-    position: { x: number; y: number; width: number; height: number };
-    attributes: Record<string, string>;
+    selector: string;
+    name?: string;
+    inputType?: string;
+    placeholder?: string;
+    label?: string;
+    // ... position, attributes, etc.
   };
-  viewport: {
-    scrollX: number;
-    scrollY: number;
-    width: number;
-    height: number;
+  value: {
+    hash: string;        // SHA-256 hash of input value
+    length: number;      // Original length
+    isEmpty: boolean;    // Whether field was empty
   };
+  trigger: "debounce" | "blur";
+  viewport: ViewportInfo;
+}
+
+// Example: Network Request Action
+interface NetworkRequestActionData {
+  type: "network_request";
+  url: string;           // Sanitized URL
+  method: string;
+  statusCode?: number;
+  duration: number;      // Milliseconds
+  requestSize?: number;  // Bytes
+  responseSize?: number; // Bytes
+  isSuccess: boolean;
+  error?: string;
+  viewport: ViewportInfo;
+}
+```
+
+## Action Type Examples
+
+```tsx
+// Click action
+{
+  type: "click",
+  timestamp: "2024-01-15T10:30:00.000Z",
+  element: {
+    tagName: "BUTTON",
+    selector: "#submit-btn",
+    text: "Submit Form",
+    className: "btn btn-primary",
+    // ... position, attributes
+  },
+  viewport: { scrollX: 0, scrollY: 100, width: 1920, height: 1080 }
+}
+
+// Input action (privacy-preserved)
+{
+  type: "input",
+  timestamp: "2024-01-15T10:30:05.000Z",
+  element: {
+    tagName: "INPUT",
+    selector: "input[name='email']",
+    name: "email",
+    inputType: "email",
+    placeholder: "Enter your email",
+    label: "Email Address"
+  },
+  value: {
+    hash: "a1b2c3d4e5f6...", // SHA-256 hash
+    length: 15,
+    isEmpty: false
+  },
+  trigger: "blur"
+}
+
+// Scroll milestone
+{
+  type: "scroll",
+  timestamp: "2024-01-15T10:30:10.000Z",
+  depthPercentage: 50,
+  position: { x: 0, y: 500 },
+  direction: "down",
+  velocity: 120,
+  isMilestone: true
+}
+
+// Network request
+{
+  type: "network_request",
+  timestamp: "2024-01-15T10:30:15.000Z",
+  url: "https://api.example.com/users",
+  method: "POST",
+  statusCode: 201,
+  duration: 250,
+  requestSize: 1024,
+  responseSize: 512,
+  isSuccess: true
 }
 ```

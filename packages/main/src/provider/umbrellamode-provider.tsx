@@ -6,6 +6,23 @@ import {
   trackButtonClick,
   isClickableElement,
 } from "../utils/track-button-click";
+import {
+  handleInputEvent,
+  handleBlurEvent,
+  cleanupInputTracking,
+  isTextInputElement,
+} from "../utils/track-input";
+import { trackFormSubmission, isFormElement } from "../utils/track-form";
+import { trackSelectChange, isSelectElement } from "../utils/track-select";
+import {
+  createThrottledScrollHandler,
+  resetScrollTracking,
+} from "../utils/track-scroll";
+import {
+  interceptFetch,
+  interceptXHR,
+  restoreNetworkInterceptors,
+} from "../utils/track-network";
 
 interface UmbrellaModeContextInterface {
   apiKey: string;
@@ -53,24 +70,30 @@ export const UmbrellaModeProvider = ({
     setUserActions([]);
   }, []);
 
-  // Global click listener for tracking user actions
+  // Comprehensive user action tracking
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      // Clean up when widget is closed
+      cleanupInputTracking();
+      restoreNetworkInterceptors();
+      return;
+    }
 
-    const handleGlobalClick = (event: MouseEvent) => {
-      const target = event.target as Element;
-
-      // Skip if target is not a clickable element
-      if (!isClickableElement(target)) return;
-
-      // Skip if click is within the widget (shadow DOM or widget container)
+    // Helper function to check if element is within widget
+    const isWithinWidget = (element: Element): boolean => {
       const widgetContainer = document.querySelector(
         "[data-umbrellamode-widget]"
       );
-      if (widgetContainer && widgetContainer.contains(target)) return;
+      if (widgetContainer && widgetContainer.contains(element)) return true;
+      if (element.getRootNode() !== document) return true;
+      return false;
+    };
 
-      // Skip if click is within shadow DOM
-      if (target.getRootNode() !== document) return;
+    // Click tracking
+    const handleGlobalClick = (event: MouseEvent) => {
+      const target = event.target as Element;
+
+      if (!isClickableElement(target) || isWithinWidget(target)) return;
 
       try {
         const userAction = trackButtonClick(event);
@@ -80,10 +103,81 @@ export const UmbrellaModeProvider = ({
       }
     };
 
+    // Input tracking (debounced)
+    const handleInput = (event: Event) => {
+      const target = event.target as Element;
+      if (!isTextInputElement(target) || isWithinWidget(target)) return;
+
+      handleInputEvent(event, addUserAction);
+    };
+
+    // Input tracking (blur)
+    const handleBlur = (event: Event) => {
+      const target = event.target as Element;
+      if (!isTextInputElement(target) || isWithinWidget(target)) return;
+
+      handleBlurEvent(event, addUserAction);
+    };
+
+    // Form submission tracking
+    const handleFormSubmit = (event: Event) => {
+      const target = event.target as Element;
+      if (!isFormElement(target) || isWithinWidget(target)) return;
+
+      trackFormSubmission(event)
+        .then(addUserAction)
+        .catch((error) => {
+          console.warn("Failed to track form submission:", error);
+        });
+    };
+
+    // Select change tracking
+    const handleSelectChange = (event: Event) => {
+      const target = event.target as Element;
+      if (!isSelectElement(target) || isWithinWidget(target)) return;
+
+      try {
+        const userAction = trackSelectChange(event);
+        addUserAction(userAction as UserAction);
+      } catch (error) {
+        console.warn("Failed to track select change:", error);
+      }
+    };
+
+    // Scroll tracking
+    resetScrollTracking();
+    const handleScroll = createThrottledScrollHandler((action) => {
+      addUserAction(action as UserAction);
+    }, 500);
+
+    // Network request tracking
+    interceptFetch((action) => {
+      addUserAction(action as UserAction);
+    });
+    interceptXHR((action) => {
+      addUserAction(action as UserAction);
+    });
+
+    // Add all event listeners
     document.addEventListener("click", handleGlobalClick, true);
+    document.addEventListener("input", handleInput, true);
+    document.addEventListener("blur", handleBlur, true);
+    document.addEventListener("submit", handleFormSubmit, true);
+    document.addEventListener("change", handleSelectChange, true);
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
+      // Clean up all listeners
       document.removeEventListener("click", handleGlobalClick, true);
+      document.removeEventListener("input", handleInput, true);
+      document.removeEventListener("blur", handleBlur, true);
+      document.removeEventListener("submit", handleFormSubmit, true);
+      document.removeEventListener("change", handleSelectChange, true);
+      window.removeEventListener("scroll", handleScroll);
+
+      // Clean up tracking utilities
+      cleanupInputTracking();
+      restoreNetworkInterceptors();
     };
   }, [isOpen, addUserAction]);
 
