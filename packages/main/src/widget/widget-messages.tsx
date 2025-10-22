@@ -1,4 +1,7 @@
+import { useUmbrellaMode } from "../provider/use-umbrellamode";
+
 export const WidgetMessages = () => {
+  const { userActions } = useUmbrellaMode();
   return (
     <div
       style={{
@@ -11,7 +14,13 @@ export const WidgetMessages = () => {
       }}
     >
       <div style={{ padding: 16 }}>
-        <p>Hello, how can I help you today?</p>
+        <pre>
+          {JSON.stringify(
+            userActions.map((action) => action.element.className),
+            null,
+            2
+          )}
+        </pre>
       </div>
     </div>
   );

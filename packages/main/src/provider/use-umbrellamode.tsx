@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { UmbrellaModeContext } from "./umbrellamode-provider";
+import { UserAction } from "../types";
 
 /**
  * Arguments for identifying a user or person.
@@ -36,6 +37,9 @@ interface UseUmbrellaModeReturn {
   isOpen: boolean;
   isClosed: boolean;
   isLoading: boolean;
+  userActions: UserAction[];
+  addUserAction: (action: UserAction) => void;
+  clearUserActions: () => void;
 }
 
 export const useUmbrellaMode = (): UseUmbrellaModeReturn => {
@@ -52,5 +56,8 @@ export const useUmbrellaMode = (): UseUmbrellaModeReturn => {
     isOpen: context.isOpen,
     isClosed: context.isClosed,
     isLoading: context.isLoading,
+    userActions: context.userActions,
+    addUserAction: context.addUserAction,
+    clearUserActions: context.clearUserActions,
   };
 };
