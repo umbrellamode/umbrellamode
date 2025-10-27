@@ -32,6 +32,7 @@ import {
 
 interface UmbrellaModeContextInterface {
   apiKey: string;
+  agentKey: string;
   baseUrl?: string;
   open: () => Promise<void>;
   close: () => Promise<void>;
@@ -50,10 +51,12 @@ export const UmbrellaModeContext = createContext<
 export const UmbrellaModeProvider = ({
   children,
   apiKey,
+  agentKey,
   baseUrl = "https://api.umbrellamode.com",
 }: {
   children: React.ReactNode;
   apiKey: string;
+  agentKey: string;
   baseUrl?: string;
 }) => {
   const [personId, setPersonId] = useState<string | undefined>(undefined);
@@ -244,6 +247,7 @@ export const UmbrellaModeProvider = ({
     <UmbrellaModeContext.Provider
       value={{
         apiKey,
+        agentKey,
         baseUrl,
         open,
         close,
