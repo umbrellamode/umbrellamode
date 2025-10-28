@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UmbrellaModeContext } from "./umbrellamode-provider";
-import { UserAction } from "../types";
+import { UserAction } from "../../types";
 
 /**
  * Arguments for identifying a user or person.

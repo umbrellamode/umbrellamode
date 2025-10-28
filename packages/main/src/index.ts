@@ -33,8 +33,6 @@ export {
   type BaseElementInfo,
   type ViewportInfo,
 } from "./types";
-export { UmbrellaModeProvider } from "./provider/umbrellamode-provider";
-export { useUmbrellaMode } from "./provider/use-umbrellamode";
 export { Director } from "./director/director";
 export { Widget } from "./widget/widget";
 export {

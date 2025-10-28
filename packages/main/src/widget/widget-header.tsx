@@ -1,5 +1,5 @@
 import { XIcon } from "lucide-react";
-import { useUmbrellaMode } from "../provider/use-umbrellamode";
+import { useUmbrellaMode } from "../react";
 import { Button } from "./components/button";
 
 interface WidgetHeaderProps {

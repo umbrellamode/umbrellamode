@@ -2,7 +2,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import "@umbrellamode/ui/globals.css";
 import { Providers } from "@/components/providers";
-import { UmbrellaModeProvider } from "../../../packages/main/src";
 
 const fontSans = Geist({
   subsets: ["latin"],

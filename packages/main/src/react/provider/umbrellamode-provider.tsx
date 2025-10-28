@@ -1,34 +1,36 @@
 import { createContext, useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Widget } from "../widget/widget";
-import { UserAction } from "../types";
+import { Widget } from "../../widget/widget";
+import { UserAction } from "../../types";
 import {
   trackButtonClick,
   isClickableElement,
-} from "../utils/track-button-click";
+} from "../../utils/track-button-click";
 import {
   handleInputEvent,
   handleBlurEvent,
   cleanupInputTracking,
   isTextInputElement,
-} from "../utils/track-input";
-import { trackFormSubmission, isFormElement } from "../utils/track-form";
-import { trackSelectChange, isSelectElement } from "../utils/track-select";
+} from "../../utils/track-input";
+import { trackFormSubmission, isFormElement } from "../../utils/track-form";
+import { trackSelectChange, isSelectElement } from "../../utils/track-select";
 import {
   createThrottledScrollHandler,
   resetScrollTracking,
-} from "../utils/track-scroll";
+} from "../../utils/track-scroll";
 import {
   interceptFetch,
   interceptXHR,
   restoreNetworkInterceptors,
-} from "../utils/track-network";
+} from "../../utils/track-network";
 import {
   handleMouseEnter,
   handleMouseLeave,
   cleanupHoverTracking,
   isHoverableElement,
-} from "../utils/track-hover";
+} from "../../utils/track-hover";
+import { SendIcon } from "lucide-react";
+import { FloatingInput } from "../floating-input/floating-input";
 
 interface UmbrellaModeContextInterface {
   apiKey: string;
@@ -60,9 +62,18 @@ export const UmbrellaModeProvider = ({
   baseUrl?: string;
 }) => {
   const [personId, setPersonId] = useState<string | undefined>(undefined);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userActions, setUserActions] = useState<UserAction[]>([]);
+  const [floatingInputValue, setFloatingInputValue] = useState<string>("");
+  const [floatingButtonVisible, setFloatingButtonVisible] =
+    useState<boolean>(true);
+
+  const onFloatingInputSubmit = (value: string) => {
+    setFloatingInputValue(value);
+    setIsOpen(true);
+    setFloatingButtonVisible(false);
+  };
 
   const isClosed = !isOpen;
 
@@ -235,6 +246,7 @@ export const UmbrellaModeProvider = ({
       // TODO: Implement actual close logic here
       // This might involve API calls, state updates, etc.
       setIsOpen(false);
+      setFloatingButtonVisible(true); // Show floating button when panel closes
     } catch (error) {
       console.error("Failed to close umbrella mode:", error);
       throw error;
@@ -283,6 +295,18 @@ export const UmbrellaModeProvider = ({
           }}
         >
           {children}
+          <AnimatePresence>
+            {floatingButtonVisible && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <FloatingInput onSubmit={onFloatingInputSubmit} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
         <AnimatePresence>
           {isOpen && (

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Actor } from "../actor";
-import { useUmbrellaMode } from "../provider/use-umbrellamode";
+import { useUmbrellaMode } from "../react";
 import { UserAction } from "../types";
 
 export const WidgetMessages = () => {
